@@ -14,8 +14,8 @@ html, body {
 }
 
 .card {
-  width: 120px;
-  height: 120px;
+  width: 178px;
+  height: 100px;
   background: orange;
   border: 2px solid white;
   border-radius: 5px;
@@ -25,6 +25,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 .front {
@@ -34,7 +36,7 @@ html, body {
 }
 
 .number {
-  height: 120px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;

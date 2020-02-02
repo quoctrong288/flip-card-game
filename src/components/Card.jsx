@@ -9,6 +9,7 @@ class Card extends Component {
             isFlipped: false
         };
         this.number = props.number;
+        this.imageName = props.image;
         
         this.handleClick = this.handleClick.bind(this);
     }
@@ -24,10 +25,15 @@ class Card extends Component {
     }
 
     getColor() {
-        return 'gray'
+        return 'gray';
     }
 
     render() {
+        let imgURL = process.env.PUBLIC_URL + "/images/" + this.imageName;
+        let imageStyle = { 
+            backgroundImage: `url( ${ imgURL } )`
+        };
+
         return (
             <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal">
                 <div className ="card" onClick={this.handleClick} style={{backgroundColor: 'gray'}}>
@@ -36,7 +42,7 @@ class Card extends Component {
                 </div>
         
                 <div className ="card" onClick={this.handleClick} style={{backgroundColor: 'orange'}}>
-                    <div className="back">
+                    <div className="back" style={imageStyle}>
                         <div className="number" style={{zIndex: 1}}>
                             {this.number}
                         </div>
