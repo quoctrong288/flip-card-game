@@ -8,14 +8,19 @@ class Card extends Component {
         this.state = {
             isFlipped: false
         };
+        this.number = props.number;
         
         this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick(e) {
         e.preventDefault();
-        this.props.onClickHandle(this.props.number);
-        this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
+        if (!this.state.isFlipped) {
+            let canFlip = this.props.onClickHandle(this);
+            if (canFlip) {
+                this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
+            }
+        }
     }
 
     getColor() {
@@ -33,7 +38,7 @@ class Card extends Component {
                 <div className ="card" onClick={this.handleClick} style={{backgroundColor: 'orange'}}>
                     <div className="back">
                         <div className="number" style={{zIndex: 1}}>
-                            {this.props.number}
+                            {this.number}
                         </div>
                     </div>
                 </div>
