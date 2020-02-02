@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactCardFlip from 'react-card-flip';
+import Resources from './Resources';
 
 class Card extends Component {
     constructor(props) {
@@ -9,7 +10,6 @@ class Card extends Component {
             isFlipped: false
         };
         this.number = props.number;
-        this.imageName = props.image;
         
         this.handleClick = this.handleClick.bind(this);
     }
@@ -29,6 +29,7 @@ class Card extends Component {
     }
 
     render() {
+        this.imageName = Resources.imgNames[this.number];
         let imgURL = process.env.PUBLIC_URL + "/images/" + this.imageName;
         let imageStyle = { 
             backgroundImage: `url( ${ imgURL } )`
