@@ -17,11 +17,12 @@ class App extends Component {
   }
 
   handleCardClick(card) {
-    if (this.firstCard != null && this.secondCard != null) {
-      return false;
-    }
     let first = this.firstCard;
     let second = this.secondCard;
+    
+    if (first != null && second != null) {
+      return false;
+    }
 
     console.log("number = " + card.number);
     if (first == null) {
@@ -37,12 +38,12 @@ class App extends Component {
       }
       else {
         console.log("Not accept");
-        setTimeout((() => {
+        setTimeout(() => {
           this.firstCard.setState({isFlipped: false});
           this.secondCard.setState({isFlipped: false});
           this.firstCard = null;
           this.secondCard = null;
-        }).bind(this), 1000);
+        }, 1000);
       }
     }
     return true;
