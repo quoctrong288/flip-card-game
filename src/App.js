@@ -9,6 +9,7 @@ class App extends Component {
       this.level = 1;
       this.firstCard = null;
       this.secondCard = null;
+      this.flipping = null;
       this.state = {
           numbers: []
       }
@@ -19,7 +20,7 @@ class App extends Component {
   handleCardClick(card) {
     let first = this.firstCard;
     let second = this.secondCard;
-    
+
     if (first != null && second != null) {
       return false;
     }
@@ -38,9 +39,9 @@ class App extends Component {
       }
       else {
         console.log("Not accept");
-        setTimeout(() => {
-          this.firstCard.setState({isFlipped: false});
-          this.secondCard.setState({isFlipped: false});
+        this.flipping = setTimeout(() => {
+          if (this.firstCard) this.firstCard.setState({isFlipped: false});
+          if (this.secondCard) this.secondCard.setState({isFlipped: false});
           this.firstCard = null;
           this.secondCard = null;
         }, 1000);
@@ -50,36 +51,56 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({numbers: shuffle(9)});
+    this.setState({numbers: shuffle(8)});
   }
 
-  newGame() {
-    console.log("start new game");
-    this.level++;
-    this.setState({numbers: shuffle(16)});
+  selectMode(mode) {
+    let numCards = 8;
+    switch (mode) {
+      case GAME_MODE.EASY:
+        numCards = 8;
+        break;
+      case GAME_MODE.NORMAL:
+        numCards = 12;
+        break;
+      case GAME_MODE.HARD:
+        numCards = 16;
+        break;
+      case GAME_MODE.INSANE:
+        numCards = 24;
+        break;
+      default:
+        numCards = 8;
+    }
+
+    clearTimeout(this.flipping);
+    if (this.firstCard) this.firstCard.setState({isFlipped: false});
+    if (this.secondCard) this.secondCard.setState({isFlipped: false});
+    this.firstCard = null;
+    this.secondCard = null;
+    this.setState({numbers: shuffle(numCards)});
   }
 
   render() {
-    var numCol = Math.sqrt(this.state.numbers.length);
+    var numCol = this.state.numbers.length === 24 ? 6 : 4;
     var width = numCol * 128;
     const divStyle = { width: width };
 
     return (
       <div>
         <div>
-          <button onClick={() => this.newGame()}>
-            New Game
-          </button>
+          <button onClick={() => this.selectMode(GAME_MODE.EASY)}> EASY </button>
+          <button onClick={() => this.selectMode(GAME_MODE.NORMAL)}> NORMAL </button>
+          <button onClick={() => this.selectMode(GAME_MODE.HARD)}> HARD </button>
+          <button onClick={() => this.selectMode(GAME_MODE.INSANE)}> INSANE </button>
         </div>
         <div className="game-board" style={divStyle}>
         {
           this.state.numbers.map((number, index) => (
             <Card 
-              key={index} 
-              number={number} 
+              key={index}
+              number={number}
               onClickHandle={this.handleCardClick}
-              // discovered={!this.state.unDiscovered.includes(number)} 
-              // guessed={this.state.guess1 === number || this.state.guess2 === number}
             />
           ))
         }
@@ -87,6 +108,13 @@ class App extends Component {
       </div>
     );
   }
+}
+
+let GAME_MODE = {
+  EASY: 1,
+  NORMAL: 2,
+  HARD: 3,
+  INSANE: 4
 }
 
 function shuffle(length) {
