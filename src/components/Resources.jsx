@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Resources extends Component {
+class Resources extends React.Component {
     static imgNames = [ 
         '120px-Abaddon_icon.png',
         '120px-Alchemist_icon.png',

@@ -27,22 +27,21 @@ class App extends Component {
       return false;
     }
 
-    console.log("number = " + card.number);
     if (first == null) {
       this.firstCard = card;
-      console.log("first card = " + this.firstCard.number);
     }
     else if (second == null) {
       this.secondCard = card;
       if (this.firstCard.number === this.secondCard.number) {
-        console.log("OK Accept");
         this.flippedCards.push(this.firstCard);
         this.flippedCards.push(this.secondCard);
         this.firstCard = null;
         this.secondCard = null;
+        if (this.flippedCards.length === this.state.numbers.length) {
+          console.log("YOU WIN");
+        }
       }
       else {
-        console.log("Not accept");
         this.flipping = setTimeout(() => {
           if (this.firstCard) this.firstCard.setState({isFlipped: false});
           if (this.secondCard) this.secondCard.setState({isFlipped: false});
@@ -85,6 +84,7 @@ class App extends Component {
     for (let i = 0; i < this.flippedCards.length; ++i) {
       if (this.flippedCards[i]) this.flippedCards[i].setState({isFlipped: false});
     }
+    this.flippedCards = [];
     this.setState({numbers: shuffle(numCards)});
   }
 
